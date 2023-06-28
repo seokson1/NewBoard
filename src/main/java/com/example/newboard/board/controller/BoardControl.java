@@ -2,8 +2,14 @@ package com.example.newboard.board.controller;
 
 import com.example.newboard.board.entity.BoardVO;
 import com.example.newboard.board.repository.BoardRepository;
+import com.example.newboard.board.service.BoardService;
+import com.example.newboard.dto.BoardDAO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -14,26 +20,20 @@ import java.util.List;
 @RestController
 public class BoardControl {
 
-    private final BoardRepository boardRepository;
+    private final BoardService boardService;
 
 
-    @GetMapping("/api/board")
-    public String boardString() {
-
-        return "게시판 입니다.";
+    @PostMapping("/api/insert")
+    public ResponseEntity<BoardVO> addInsert(@RequestBody BoardDAO dao) {
+       BoardVO addVO  = boardService.addBoard(dao);
+        return ResponseEntity.status(HttpStatus.CREATED).body(addVO);
     }
 
     @GetMapping("/api/get/board")
     public BoardVO getBoard() {
 
-        BoardVO boardVO = new BoardVO();
-        boardVO.setBoardNo(1);
-        boardVO.setBoardTitle("연습중");
-        boardVO.setBoardWriter("홍길동");
-        boardVO.setRegDate(LocalDateTime.now());
-        boardVO.setBoardContent("지금 작성 중입니다.");
 
-        return boardVO;
+        return null;
     }
 
     @GetMapping("/api/get/list/board")

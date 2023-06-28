@@ -14,28 +14,28 @@ import java.time.LocalDateTime;
 public class BoardVO {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long boardNo;
 
-    @Column
+    @Column(name = "board_title", nullable = false)
     private String boardTitle;
 
-    @Column
+    @Column(name = "board_writer", nullable = false)
     private String boardWriter;
 
-    @Column
+    @Column(name = "board_content", nullable = false)
     private String boardContent;
 
-    @Column
+    @Column(name = "board_regdate", nullable = false)
     private LocalDateTime regDate;
 
-    @Column
+    @Column(name = "board_modify")
     private LocalDateTime updateDate;
 
-    @Column
+    @Column(name = "board_deletedate")
     private LocalDateTime deleteDate;
 
-    @Column
-    private long goodHit;
+    @Column(name = "board_good")
+    private long good;
 
 }
