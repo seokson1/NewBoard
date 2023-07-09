@@ -1,4 +1,4 @@
-package com.example.newboard.dto;
+package com.example.newboard.board.dto;
 
 import com.example.newboard.board.entity.BoardVO;
 import lombok.*;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-public class BoardDAO {
+public class BoardRequest {
 
     private String title;
     private String content;

@@ -1,20 +1,17 @@
 package com.example.newboard.board.controller;
 
+import com.example.newboard.board.dto.BoardRequest;
+import com.example.newboard.board.dto.BoardResponse;
+import com.example.newboard.board.dto.UpdateBoardRequest;
 import com.example.newboard.board.entity.BoardVO;
-import com.example.newboard.board.repository.BoardRepository;
 import com.example.newboard.board.service.BoardService;
-import com.example.newboard.dto.BoardDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,25 +21,42 @@ public class BoardControl {
 
 
     @PostMapping("/api/insert")
-    public ResponseEntity<BoardVO> addInsert(@RequestBody BoardDAO dao) {
-       BoardVO addVO  = boardService.addBoard(dao);
+    public ResponseEntity<BoardVO> addBoard(@RequestBody BoardRequest dao) {
+        BoardVO addVO = boardService.addBoard(dao);
         return ResponseEntity.status(HttpStatus.CREATED).body(addVO);
     }
 
-    @GetMapping("/api/get/board")
-    public BoardVO getBoard() {
+    @GetMapping("/api/get/board/{id}")
+    public ResponseEntity<BoardResponse> getBoard(@PathVariable long id) {
+        BoardVO vo = boardService.getBoard(id);
 
-
-        return null;
+        return ResponseEntity.ok().body(new BoardResponse(vo));
     }
 
     @GetMapping("/api/get/list/board")
-    public List<BoardVO> listBoard() {
+    public ResponseEntity<List<BoardResponse>> listBoard() {
 
-        List<BoardVO> boardVO = new ArrayList<>();
+        List<BoardResponse> list = boardService.listBoard()
+                .stream()
+                .map(BoardResponse::new)
+                .collect(Collectors.toList());
 
 
-    return null;
+        return ResponseEntity.ok().body(list);
+    }
+    @DeleteMapping("/api/delete/board/{id}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable long id) {
+
+        boardService.deleteBoard(id);
+
+        return ResponseEntity.ok().build();
+    }
+    @PutMapping("/api/update/board/{id}")
+    public ResponseEntity<BoardVO> updateBoard(@PathVariable long id, @RequestBody UpdateBoardRequest request) {
+
+        BoardVO updateBoard = boardService.updateBoard(id, request);
+
+     return ResponseEntity.ok().body(updateBoard);
     }
 }
 

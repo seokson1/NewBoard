@@ -38,4 +38,11 @@ public class BoardVO {
     @Column(name = "board_good")
     private long good;
 
+    public void update(String boardTitle, String boardContent) {
+
+        this.boardTitle = boardTitle;
+
+        this.boardContent = boardContent;
+    }
+
 }
